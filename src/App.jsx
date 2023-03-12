@@ -1,39 +1,40 @@
-import {createElement, useEffect, useState} from "react";
+import 'split-pane-react/esm/themes/default.css'
 import Sidebar from "./components/sidebar";
-import {Resizable} from "re-resizable";
+import SearchResults from "./components/searchresults";
+import Splitter, {SplitDirection} from '@devbookhq/splitter';
+import ModalForm from "./components/modalform";
+import {useState} from "react";
+
 
 function App() {
 
-  const [height, setHeight] = useState(500);
+    const [showModalForm, setShowModalForm] = useState(false);
 
-  return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-md-2 p-0">
-          <Sidebar/>
+    const hideModalForm = () => {
+        setShowModalForm(false);
+    }
+
+    return (
+        <div className="d-flex flex-row vh-100">
+            <Sidebar modalOnClick={() => {
+                setShowModalForm(!showModalForm);
+            }}/>
+            <ModalForm showModalForm={showModalForm} hideModalForm={hideModalForm}/>
+            <Splitter
+                direction={SplitDirection.Vertical}
+                minHeights={[300, 200]}
+                gutterClassName="results-gutter"
+            >
+                <div style={{height: '100%', overflow: "auto"}}>
+                    <SearchResults/>
+                </div>
+                <div>
+                    Detailed Screen
+                </div>
+            </Splitter>
         </div>
-        <div className="col-md-10 p-0 vh-100">
-          <Resizable
-            enable={{
-              bottom: true
-            }}
-            size={{width: '100%', height: height}}
-            onResizeStop={(e, direction, ref, d) => {
-              setHeight(height + d.height)
-            }}
-            className="bg-info"
-            minHeight="30vh"
-            maxHeight="90vh"
-          >
-            asdfdas
-          </Resizable>
-          <div style={{backgroundColor: 'grey', height: `calc(100vh - ${height}px)` }}>
-            asdfas
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+    )
+
 }
 
 export default App

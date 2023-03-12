@@ -5,6 +5,7 @@ html {
 
 body {
     margin: 0;
+    box-sizing: border-box;
 }
 
 *,
@@ -12,4 +13,8 @@ body {
 *::after {
     -webkit-box-sizing: inherit;
     box-sizing: inherit;
+}
+
+.results-gutter{
+    background-color: #dee2e6;
 }
